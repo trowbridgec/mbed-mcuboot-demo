@@ -1,11 +1,14 @@
 {
-    "requires": ["bare-metal", "mbedtls", "mcuboot", "flashiap-block-device", "spif-driver", "qspif", "mbed-trace"],
+    "requires": ["bare-metal", "mbedtls", "mcuboot", "flashiap-block-device", "spif-driver", "qspif", "mbed-trace", "psa", "ep-kairos", "rtos-api"],
     "config": {
         "serial-bootloader-enable": {
             "help": "Build bootloader with serial update support",
             "value": 0
         }
     },
+    "macros": [
+        "SERIAL_PORT_TYPE_UART=1"
+    ],
     "target_overrides": {
         "*": {
             "target.restrict_size": "0x20000",
@@ -44,6 +47,21 @@
             "mcuboot.max-img-sectors": "0x180",
             "mcuboot.read-granularity": 1,
             "qspif.QSPI_MIN_PROG_SIZE": 1
+        },
+        "EP_KAIROS": {
+            "mcuboot.primary-slot-address": "0x41000",
+            "mcuboot.slot-size": "0x37000",
+            "mcuboot.scratch-address": "0x78000",
+            "mcuboot.scratch-size": "0x10000",
+            "mcuboot.max-img-sectors": "0xC00",
+            "mcuboot.read-granularity": 1,
+            "mcuboot.overwrite-only": true,
+            "target.features_add"                       : ["STORAGE"],
+            "target.extra_labels_add"                   : ["PSA"],
+            "spif-driver.SPI_MOSI"                      : "TE_QSPI_IO0",
+            "spif-driver.SPI_MISO"                      : "TE_QSPI_IO1",
+            "spif-driver.SPI_CLK"                       : "TE_QSPI_CLK",
+            "spif-driver.SPI_CS"                        : "TE_QSPI_CSN"
         }
     }
 }

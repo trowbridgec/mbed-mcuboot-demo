@@ -33,7 +33,14 @@ BlockDevice *BlockDevice::get_default_instance()
 {
 #if COMPONENT_SPIF
 
-    static SPIFBlockDevice default_bd;
+    static SPIFBlockDevice default_bd(
+        MBED_CONF_SPIF_DRIVER_SPI_MOSI,
+        MBED_CONF_SPIF_DRIVER_SPI_MISO,
+        MBED_CONF_SPIF_DRIVER_SPI_CLK,
+        MBED_CONF_SPIF_DRIVER_SPI_CS,
+        MBED_CONF_SPIF_DRIVER_SPI_FREQ
+    );
+    // static SPIFBlockDevice default_bd;
 
     return &default_bd;
 

@@ -1,0 +1,8 @@
+{
+    "EP_KAIROS": {
+        "inherits": ["LPC55S69_NS"],
+        "detect_code": ["2601"],
+        "components_add": ["SPIF"],
+        "extra_labels_remove": ["LPCXpresso"]
+    }
+}
